@@ -97,6 +97,7 @@ cd ../debian
   - linux-headers-5.15.0-orbital+_5.15.0-orbital+-10.00.Custom_arm64.deb
   - uz801_v30_modem.bin
   - WCNSS_qcom_wlan_nv.bin
+
   to modem via sftp(login/password below) or adb push to home folder(/home/user)
   log in via ssh or adb
 ```
@@ -126,6 +127,16 @@ sudo cp wcnss.* /lib/firmware/
 # in my case
 cp modem_pr/mcfg/configs/mcfg_sw/generic/eu/ee/commerci/mcfg_sw.mbn /lib/firmware
 reboot
+```
+You can fix missing dnsmasq configuration after upgrading, [with instructions from @xiv3r](https://github.com/asvdvl/uz801-v3.0_stuff/issues/1#issue-3067616139)
+```
+nano /etc/dnsmasq.conf
+
+dhcp-range=interface:wlan0,192.168.100.100,192.168.100.150,12h
+dhcp-range=interface:usb0,192.168.200.100,192.168.200.150,12h
+
+ssh user@192.168.200.1 - RNDIS
+ssh user@192.168.100.1 - AP
 ```
 That’s all, then you can install the software either by connecting to wifi or using a mobile network(may not work)
 ```
